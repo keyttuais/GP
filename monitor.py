@@ -9,8 +9,8 @@ THRESHOLD_PERCENT = 2.0
 DATA_FILE = "history.json"
 TOKEN = os.getenv("TELEGRAM_TOKEN")
 CHAT_ID = os.getenv("CHAT_ID")
-link_1 = os.getenv("LINK_1")
-
+LINK_1 = os.getenv("LINK_1")
+LINK_2 = os.getenv("LINK_2")
 def send_telegram(message, level="info"):
     icons = {"info": "📅", "alert": "🚨"}
     title = "*SCHEDULED UPDATE*" if level == "info" else "*PRICE DROP ALERT*"
@@ -32,7 +32,7 @@ def main():
     else:
         db = {"last_scheduled_time": 0, "history": {}, "logs": []}
 
-    url = f"{link_1}"
+    url = f"{LINK_1}"
 
     response = requests.get(url)
     response.raise_for_status() # Raise an exception for HTTP errors
@@ -44,7 +44,7 @@ def main():
     silver_price = data['data']['prices']['silver']['price']
     gold_price = data['data']['prices']['gold']['price'] # Correctly extract gold price
 
-    url_a = f"LINK_2"
+    url = f"{LINK_2}"
 
     response = requests.get(url)
     response.raise_for_status() # Raise an exception for HTTP errors
