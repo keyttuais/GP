@@ -1,72 +1,61 @@
 import os
 import json
 import requests
-from bs4 import BeautifulSoup
 
-# --- CONFIGURATION ---
-THRESHOLD_PERCENT = 2.0  # Alert if drop is > 2%
+# --- CONFIG ---
+THRESHOLD_PERCENT = 2.0
 DATA_FILE = "history.json"
 TOKEN = os.getenv("TELEGRAM_TOKEN")
 CHAT_ID = os.getenv("CHAT_ID")
+FORCE_ALERT = True  # Set to True just to test the message format!
 
-def scrape_site_1():
-    # Placeholder: Your scraping logic for Site 1
-    return 100.0
+def send_telegram(message, level="info"):
+    """
+    Sends a formatted Markdown message.
+    Levels: info (ℹ️), alert (🚨), sync (⚠️)
+    """
+    icons = {"info": "ℹ️", "alert": "🚨", "sync": "⚠️"}
+    icon = icons.get(level, "🤖")
+    
+    # Constructing the Markdown string
+    header = f"{icon} *SCRAPER NOTIFICATION* {icon}"
+    full_body = f"{header}\n\n{message}"
 
-def scrape_site_2():
-    # Placeholder: Your scraping logic for Site 2
-    return 100.0
-
-def scrape_site_3():
-    return 50.0
-
-def scrape_site_4():
-    return 48.5  # Example: This is a 3% drop from 50.0
-
-def send_telegram(message):
-    if not TOKEN or not CHAT_ID:
-        print("Missing Secrets!")
-        return
     url = f"https://api.telegram.org/bot{TOKEN}/sendMessage"
-    payload = {"chat_id": CHAT_ID, "text": message, "parse_mode": "Markdown"}
-    requests.post(url, json=payload)
+    payload = {
+        "chat_id": CHAT_ID,
+        "text": full_body,
+        "parse_mode": "Markdown"  # Enables *bold* and _italic_
+    }
+    
+    try:
+        r = requests.post(url, json=payload)
+        r.raise_for_status()
+    except Exception as e:
+        print(f"Error sending Telegram: {e}")
 
 def main():
-    # Load previous history
-    if os.path.exists(DATA_FILE):
-        with open(DATA_FILE, "r") as f:
-            history = json.load(f)
-    else:
-        history = {}
-
-    # Fetch current data
-    s1, s2, s3, s4 = scrape_site_1(), scrape_site_2(), scrape_site_3(), scrape_site_4()
-    current_data = {"site1": s1, "site2": s2, "site3": s3, "site4": s4}
+    # 1. Dummy data for testing
+    s1, s2, s3, s4 = 100.0, 100.0, 50.0, 48.0
     
-    alerts = []
+    # 2. Build the message
+    report = []
+    
+    # Discrepancy Example
+    if s1 == s2: # Usually s1 != s2, but for testing we use ==
+        report.append(f"🔄 *Sync Status:* Sites 1 & 2 are matching at `{s1}`")
 
-    # Check 1: Site 1 vs Site 2 Discrepancy
-    if s1 != s2:
-        alerts.append(f"⚠️ **Sync Error:** Site 1 ({s1}) != Site 2 ({s2})")
+    # Drop Example
+    report.append(f"📉 *Price Drop:* Site 4 dropped to *{s4}*")
 
-    # Check 2: Percentage Drop
-    for site, val in current_data.items():
-        old_val = history.get(site)
-        if old_val:
-            change = ((val - old_val) / old_val) * 100
-            if change <= -THRESHOLD_PERCENT:
-                alerts.append(f"📉 **{site.upper()} Drop:** {change:.2f}% (Now: {val})")
-        
-        # Update history
-        history[site] = val
-
-    # Send alerts if any
-    if alerts:
-        send_telegram("\n\n".join(alerts))
-
-    # Save history back to file
-    with open(DATA_FILE, "w") as f:
-        json.dump(history, f, indent=4)
+    # 3. Decision Logic
+    final_message = "\n\n".join(report)
+    
+    if FORCE_ALERT or report:
+        send_telegram(final_message, level="alert")
+        print("Alert sent!")
+    else:
+        print("No changes detected. Silence is golden.")
 
 if __name__ == "__main__":
     main()
