@@ -35,6 +35,8 @@ def main():
 
     url = f"{LINK_1}"
 
+    print(url)
+
     response = requests.get(url)
     response.raise_for_status() # Raise an exception for HTTP errors
 
@@ -46,6 +48,8 @@ def main():
     gold_price = data['data']['prices']['gold']['price'] # Correctly extract gold price
 
     url = f"{LINK_2}"
+
+    print(url)
 
     response = requests.get(url)
     response.raise_for_status() # Raise an exception for HTTP errors
