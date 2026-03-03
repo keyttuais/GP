@@ -8,11 +8,8 @@ on:
 jobs:
   run-scraper:
     runs-on: ubuntu-latest
-    # --- THIS PART FIXES THE 403 ERROR ---
     permissions:
       contents: write
-    # -------------------------------------
-    
     steps:
       - name: Checkout Code
         uses: actions/checkout@v4
