@@ -1,0 +1,5 @@
+__pycache__/
+.env
+.venv
+# Note: Do NOT add history.json here, 
+# because we WANT GitHub to track its changes.
