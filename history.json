@@ -1,0 +1,19 @@
+{
+    "last_scheduled_time": 1772555023.28252,
+    "history": {
+        "Site_1": {
+            "price_a": 15365.0,
+            "price_b": 288.0
+        },
+        "Site_2": {
+            "price_a": "16561.22",
+            "price_b": "276.24"
+        }
+    },
+    "logs": [
+        {
+            "t": "2026-03-03T16:23:43.878059",
+            "alert": false
+        }
+    ]
+}
