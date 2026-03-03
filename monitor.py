@@ -14,7 +14,7 @@ LINK_2 = os.getenv("LINK_2")
 
 def send_telegram(message, level="info"):
     icons = {"info": "📅", "alert": "🚨"}
-    title = "*SCHEDULED UPDATE*" if level == "info" else "*PRICE DROP ALERT*"
+    title = "*NEW UPDATE FOR YOU*" if level == "info" else "*PRICE DROP ALERT*"
     full_body = f"{icons[level]} {title} {icons[level]}\n\n{message}"
     
     url = f"https://api.telegram.org/bot{TOKEN}/sendMessage"
@@ -61,8 +61,8 @@ def main():
 
     # 2. Get Prices (REPLACE these with your actual scraping logic/functions)
     current_prices = {
-        "Site_1": {"price_a": gold_price, "price_b": silver_price},
-        "Site_2": {"price_a": gold_price_1, "price_b": silver_price_1}
+        "Site_1": {"Gold": gold_price, "Silver": silver_price},
+        "Site_2": {"Gold": gold_price_1, "Silver": silver_price_1}
     }
     
     now_ts = time.time()
@@ -71,13 +71,16 @@ def main():
 
     # 3. Process the Two Sites
     for site in ["Site_1", "Site_2"]:
-        site_header = f"📍 *{site.replace('_', ' ')}*"
+        if(site == "Site_1"):
+            site_header = f"📍 *Lalitha Jewellers*"
+        else:
+            site_header = f"📍 *Augmont*
         site_lines = [site_header]
         
         # Get old data for this specific site
         old_site_data = db["history"].get(site, {})
 
-        for label in ["price_a", "price_b"]:
+        for label in ["Gold", "Silver"]:
             curr_val = current_prices[site][label]
             prev_val = old_site_data.get(label)
             
