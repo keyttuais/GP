@@ -102,7 +102,6 @@ def main():
                 site_lines.append(f"  • {label_name}: `{curr_val}` (Baseline set)")
         
         report_lines.append("\n".join(site_lines))
-        db["history"][site] = current_prices[site]
 
     # 4. Message Logic
     final_msg = "\n\n".join(report_lines)
@@ -111,10 +110,12 @@ def main():
 
     if any_price_crashed:
         send_telegram(final_msg, level="alert")
+        db["history"][site] = current_prices[site]
         # Optional: update last_scheduled_time here if you want to skip 
         # the next scheduled update after a crash alert.
     elif is_time_for_update:
         send_telegram(final_msg, level="info")
+        db["history"][site] = current_prices[site]
         db["last_scheduled_time"] = now_ts
 
     # 5. Maintain Logs (keep 50)
