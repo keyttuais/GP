@@ -74,7 +74,7 @@ def main():
         if(site == "Site_1"):
             site_header = f"📍 *Lalitha Jewellers*"
         else:
-            site_header = f"📍 *Augmont*
+            site_header = f"📍 *Augmont*"
         site_lines = [site_header]
         
         # Get old data for this specific site
