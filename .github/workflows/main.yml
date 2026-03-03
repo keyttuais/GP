@@ -29,6 +29,8 @@ jobs:
         env:
           TELEGRAM_TOKEN: ${{ secrets.TELEGRAM_TOKEN }}
           CHAT_ID: ${{ secrets.CHAT_ID }}
+          LINK_1: ${{ secrets.LINK_1 }}
+          LINK_2: ${{ secrets.LINK_2 }}
         run: python monitor.py
 
       - name: Save History to Repo
