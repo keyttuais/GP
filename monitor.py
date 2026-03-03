@@ -11,6 +11,7 @@ TOKEN = os.getenv("TELEGRAM_TOKEN")
 CHAT_ID = os.getenv("CHAT_ID")
 LINK_1 = os.getenv("LINK_1")
 LINK_2 = os.getenv("LINK_2")
+
 def send_telegram(message, level="info"):
     icons = {"info": "📅", "alert": "🚨"}
     title = "*SCHEDULED UPDATE*" if level == "info" else "*PRICE DROP ALERT*"
