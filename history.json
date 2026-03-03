@@ -2,17 +2,21 @@
     "last_scheduled_time": 1772555023.28252,
     "history": {
         "Site_1": {
-            "price_a": 15365.0,
-            "price_b": 288.0
+            "Gold": 15365.0,
+            "Silver": 288.0
         },
         "Site_2": {
-            "price_a": "16561.22",
-            "price_b": "276.24"
+            "Gold": "16551.52",
+            "Silver": "274.86"
         }
     },
     "logs": [
         {
             "t": "2026-03-03T16:23:43.878059",
+            "alert": false
+        },
+        {
+            "t": "2026-03-03T16:32:55.821287",
             "alert": false
         }
     ]
