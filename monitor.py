@@ -72,8 +72,8 @@ def main():
         old_site_data = db["history"].get(site, {})
 
         for label in ["Gold", "Silver"]:
-            curr_val = int(current_prices[site][label])
-            prev_val = int(old_site_data.get(label))
+            curr_val = float(current_prices[site][label])
+            prev_val = float(old_site_data.get(label))
             
             # Get the specific threshold for this metal
             target_threshold = THRESHOLDS.get(label, 2.0)
