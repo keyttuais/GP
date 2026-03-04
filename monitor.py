@@ -85,7 +85,7 @@ def main():
                 # Compare against the specific Gold (1%) or Silver (5%) limit
                 if change <= -target_threshold:
                     any_price_crashed = True
-                    line = f"  📉 {line} — *DROP!*"
+                    line = f"  📉 {line} — *DROP!* 🎉🎊🎉🎊🎉🎊"
                 
                 site_lines.append(line)
             else:
